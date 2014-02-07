@@ -197,3 +197,17 @@ def getArticleCited():
     for artiCited in artCitedBib:
         data.append(artiCited)
     return data
+
+def getArtCitedFromArt(nameArt):
+    ''' Give articles cited in an article
+    :param nameArt: name of the article
+    :return list
+    '''
+    article = Article.all()
+    article.filter('name =', nameArt)
+    artCitedBib = ArtCitedBib.all()
+    artCitedBib.filter('keyArticle = ', article.get())
+    data = []
+    for artiCited in artCitedBib:
+        data.append(artiCited.nameArticle)
+    return data
