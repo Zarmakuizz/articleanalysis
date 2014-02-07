@@ -16,6 +16,7 @@ class searchTest(unittest.TestCase):
     
     nameArticle = "Article sur les saucisses"
     nameAuthor = "Tomtom"
+    
 
     def setUp(self):
         '''This method is run BEFORE EACH test.
