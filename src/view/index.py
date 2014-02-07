@@ -340,8 +340,8 @@ class Index:
             res += self.article_loading(r)
         return """<h2 class="content-subhead">Search for an article…</h2>
                     <p class="pure-g">
-                        <form class='pure-form'>
-                            <input type="text" class='pure-u-3-5' value="%s"/>
+                        <form class='pure-form' action="/articles/" method="get">
+                            <input type="text" name="s" value="%s" placeholder="Enter keywords here" class='pure-u-3-5'/>
                             <button type="submit" class="pure-button pure-button-primary pure-u-1-5">Search</button>
                         </form>
                     </p>
@@ -377,8 +377,8 @@ class Index:
             load += self.author_loading(a)
         return """<h2 class="content-subhead">Search for an author…</h2>
                     <p class="pure-g">
-                        <form class='pure-form'>
-                            <input type="text" class='pure-u-3-5' value="%s"/>
+                        <form class='pure-form' action="/authors/" method="get">
+                            <input type="text" name="s" value="%s" placeholder="Enter author name here" class='pure-u-3-5'/>
                             <button type="submit" class="pure-button pure-button-primary pure-u-1-5">Search</button>
                         </form>
                     </p>
