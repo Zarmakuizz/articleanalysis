@@ -148,7 +148,6 @@ class Index:
         """Display the home page's content.
         :returns: HTML content as text"""
         words = getWordsMostFreq(10)
-        
         # Top charted words: the most popular keywords
         topcharted = ""
         for wo in words:
@@ -194,12 +193,15 @@ class Index:
     def articles_content(self):
         """Display the article's "home" page located at [url]/articles.
         :returns: HTML content as text"""
-        words = getWordsMostFreq(10)
-        
         # Top charted words: the most popular keywords
+        words = getWordsMostFreq(10)
         topcharted = ""
         for wo in words:
             topcharted += '<tr><td>'+str(wo.keyWord)+"</td><td>"+str(wo.count)+"</td></tr>\n"
+        articles = getArtMostFreqCited(10)
+        topCited = ""
+        for art in articles:
+            topCited += '<tr><td>'+str(art.nameArticle)+'</td><td>'+str(art.count)+'</td></tr>\n'
         return"""<h2 class="content-subhead">Search for an article…</h2>
                     <p class="pure-g">
                         <form class='pure-form' action="/articles/" method="get">
@@ -217,7 +219,13 @@ class Index:
                             </tbody>
                         </table>
                         <div class='pure-u-1-24'></div>
-                    </div>""" %(topcharted)
+                        <table class='pure-u-1-2  pure-table pure-table-horizontal pure-table-striped'>
+                            <thead><tr><th>Most cited articles</th><th>Count</th></tr></thead>
+                            <tbody>
+                                %s
+                            </tbody>
+                        </table>
+                    </div>""" %(topcharted,topCited)
     
     def authors_content(self):
         """Display the author's "home" page located at [url]/authors.
@@ -259,6 +267,10 @@ class Index:
         topAuthors = ""
         for auth in authors:
             topAuthors += '<tr><td><a href="/author/'+str(auth)+'">'+str(auth)+'</a></td></tr>\n'
+        articles = getArtMostFreqCited(10)
+        topCited = ""
+        for art in articles:
+            topCited += '<tr><td>'+str(art.nameArticle)+'</td><td>'+str(art.count)+'</td></tr>\n'
         return"""
                     <h2 class="content-subhead">Watch the hottest, latest statistics</h2>
                     <div class='pure-g'>
@@ -275,7 +287,15 @@ class Index:
                                 %s
                             </tbody>
                         </table>
-                    </div>""" %(topcharted,topAuthors)
+                    </div>
+                    <dv class'pure-g'>
+                        <table class='pure-u  pure-table pure-table-horizontal pure-table-striped'>
+                            <thead><tr><th>Most cited articles</th><th>Count</th></tr></thead>
+                            <tbody>
+                                %s
+                            </tbody>
+                        </table>
+                    </div>""" %(topcharted,topAuthors,topCited)
     
     def upload_content(self):
         """Display the upload page located at [url]/upload.
