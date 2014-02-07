@@ -1,0 +1,1 @@
+ nosetests --with-gae --gae-lib=/home/zarmakuizz/2013-2014/Agile/google_appengine
