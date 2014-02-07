@@ -3,6 +3,10 @@ import re
 import collections
 
 def mapper (fic):
+    ''' Do the mapper of text given in parameter.
+    :param fic: text to map reduce.
+    :returns: a dictionnary of [word=>1]. example of use: data["lol"] = 1
+    '''
     data = collections.defaultdict(list)
     with open("./datasettxt/forbiddenWords.txt") as f:
         lines = f.readlines()
@@ -18,6 +22,10 @@ def mapper (fic):
     return data
 
 def reducer (strReducer):
+    ''' Do the reducer of dictionnary given in parameter
+    :param strReducer: a dictionnary of [word=>1]. example of use: data["lol"] = 1
+    :returns: a dictionnary of [word=>count]. example of use: data["lol"] = 42
+    '''
     data = collections.defaultdict(list)
     for key, value in strReducer.items():
         nbtotal = 0

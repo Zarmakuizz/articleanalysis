@@ -23,6 +23,11 @@ def save_pdf(namefic):
     """ % (message)
     
 def convert_pdf_to_txt(namefic):
+    '''
+    Convert pdf file to text
+    :param namefic: is the name of file that we want to converte
+    :return a string
+    '''
     rsrcmgr = PDFResourceManager()
     retstr = StringIO()
     codec = 'utf-8'
@@ -41,13 +46,4 @@ def convert_pdf_to_txt(namefic):
     fic = retstr.getvalue()
     retstr.close()
 
-    #filetxt = file("../datasettxt/" + namefic + ".txt", "w")
-    #filetxt.write(str)
-    #filetxt.close()
-
     return fic
-
-
-
-#convert_pdf_to_txt('10_coginfocom2013')
-#convert_pdf_to_txt('11_coginfocom2013')
