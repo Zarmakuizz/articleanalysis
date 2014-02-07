@@ -148,7 +148,6 @@ class Index:
         """Display the home page's content.
         :returns: HTML content as text"""
         words = getWordsMostFreq(10)
-        
         # Top charted words: the most popular keywords
         topcharted = ""
         for wo in words:
@@ -194,12 +193,15 @@ class Index:
     def articles_content(self):
         """Display the article's "home" page located at [url]/articles.
         :returns: HTML content as text"""
-        words = getWordsMostFreq(10)
-        
         # Top charted words: the most popular keywords
+        words = getWordsMostFreq(10)
         topcharted = ""
         for wo in words:
             topcharted += '<tr><td>'+str(wo.keyWord)+"</td><td>"+str(wo.count)+"</td></tr>\n"
+        articles = getArtMostFreqCited(10)
+        topCited = ""
+        for art in articles:
+            topCited += '<tr><td>'+str(art.nameArticle)+'</td><td>'+str(art.count)+'</td></tr>\n'
         return"""<h2 class="content-subhead">Search for an article…</h2>
                     <p class="pure-g">
                         <form class='pure-form' action="/articles/" method="get">
@@ -217,7 +219,13 @@ class Index:
                             </tbody>
                         </table>
                         <div class='pure-u-1-24'></div>
-                    </div>""" %(topcharted)
+                        <table class='pure-u-1-2  pure-table pure-table-horizontal pure-table-striped'>
+                            <thead><tr><th>Most cited articles</th><th>Count</th></tr></thead>
+                            <tbody>
+                                %s
+                            </tbody>
+                        </table>
+                    </div>""" %(topcharted,topCited)
     
     def authors_content(self):
         """Display the author's "home" page located at [url]/authors.
@@ -259,6 +267,10 @@ class Index:
         topAuthors = ""
         for auth in authors:
             topAuthors += '<tr><td><a href="/author/'+str(auth)+'">'+str(auth)+'</a></td></tr>\n'
+        articles = getArtMostFreqCited(10)
+        topCited = ""
+        for art in articles:
+            topCited += '<tr><td>'+str(art.nameArticle)+'</td><td>'+str(art.count)+'</td></tr>\n'
         return"""
                     <h2 class="content-subhead">Watch the hottest, latest statistics</h2>
                     <div class='pure-g'>
@@ -275,7 +287,15 @@ class Index:
                                 %s
                             </tbody>
                         </table>
-                    </div>""" %(topcharted,topAuthors)
+                    </div>
+                    <div class'pure-g'>
+                        <table class='pure-u  pure-table pure-table-horizontal pure-table-striped'>
+                            <thead><tr><th>Most cited articles</th><th>Count</th></tr></thead>
+                            <tbody>
+                                %s
+                            </tbody>
+                        </table>
+                    </div>""" %(topcharted,topAuthors,topCited)
     
     def upload_content(self):
         """Display the upload page located at [url]/upload.
@@ -320,8 +340,8 @@ class Index:
             res += self.article_loading(r)
         return """<h2 class="content-subhead">Search for an article…</h2>
                     <p class="pure-g">
-                        <form class='pure-form'>
-                            <input type="text" class='pure-u-3-5' value="%s"/>
+                        <form class='pure-form' action="/articles/" method="get">
+                            <input type="text" name="s" value="%s" placeholder="Enter keywords here" class='pure-u-3-5'/>
                             <button type="submit" class="pure-button pure-button-primary pure-u-1-5">Search</button>
                         </form>
                     </p>
@@ -350,15 +370,14 @@ class Index:
         :param search: Text to search an author.
         :returns: HTML content as text"""
         authors = getAuthorsByWords(search)
-        logging.info('purée combat : %i'%len(authors))
         load = ''
         for a in authors:
             logging.info(a)
             load += self.author_loading(a)
         return """<h2 class="content-subhead">Search for an author…</h2>
                     <p class="pure-g">
-                        <form class='pure-form'>
-                            <input type="text" class='pure-u-3-5' value="%s"/>
+                        <form class='pure-form' action="/authors/" method="get">
+                            <input type="text" name="s" value="%s" placeholder="Enter author name here" class='pure-u-3-5'/>
                             <button type="submit" class="pure-button pure-button-primary pure-u-1-5">Search</button>
                         </form>
                     </p>
@@ -399,17 +418,28 @@ class Index:
         topcharted = ""
         for word in words:
             topcharted += '<tr><td>'+str(word.keyWord)+"</td><td>"+str(word.count)+"</td></tr>\n"
-        return """<h2>%s</h2>
+        citations = getArtCitedFromArt(name)
+        topCited = ""
+        for ci in citations:
+            topCited += '<tr><td>'+str(ci)+'</td></tr>'
+        return """<h2>Article' name: %s</h2>
         <p>Author: %s</p>
     <div class='pure-g'>
         <table class='pure-u pure-table pure-table-bordered pure-table-horizontal pure-table-striped'>
-            <thead><tr><th>Most frequent words</th><th>Count</th></tr></thead>
+            <thead><tr><th>Themes</th><th>Count</th></tr></thead>
+            <tbody>
+                %s
+            </tbody>
+        </table>
+        <div class='pure-u-1-24'></div>
+        <table class='pure-u-7-12 pure-table pure-table-horizontal pure-table-striped'>
+            <thead><tr><th>This article references these articles:</th></tr></thead>
             <tbody>
                 %s
             </tbody>
         </table>
     </div>
-    """%(name,str(author.name),topcharted)
+    """%(name,str(author.name),topcharted,topCited)
     
     def author_data(self,name=''):
         """Displays an author located at [url]/author/text
@@ -426,7 +456,7 @@ class Index:
         topcharted = ""
         for word in words:
             topcharted += '<tr><td>'+str(word)+"</td><td>"+str(words[word])+"</td></tr>\n"
-        return """<h2>%s</h2>
+        return """<h2>Author's name: %s</h2>
         <div class='pure-g'>
         <table class='pure-u pure-table pure-table-bordered pure-table-horizontal pure-table-striped'>
             <thead><tr><th>Look at his articles</th></tr></thead>

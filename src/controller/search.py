@@ -170,7 +170,7 @@ def getArtCitedBiblio(wordNumber = 10):
 def getArtMostFreqCited(wordNumber = 10):
     '''Give article most frequently cited
     :param wordNumber: the max number of results.
-    :return a list of object artCitedBib
+    :returns: a list of object artCitedBib
     '''
     artCitedBib = ArtCitedBib.all()
     artCitedBib.order('-count')
@@ -190,7 +190,7 @@ def getAuthorByArticleCited(nameArticle):
 
 def getArticleCited():
     '''Give all articles cited
-    :return a list of object artCitedBib 
+    :returns: a list of object artCitedBib 
     '''
     artCitedBib = ArtCitedBib.all()
     data = []
@@ -201,7 +201,7 @@ def getArticleCited():
 def getArtCitedFromArt(nameArt):
     ''' Give articles cited in an article
     :param nameArt: name of the article
-    :return list
+    :returns: list of names of articles
     '''
     article = Article.all()
     article.filter('name =', nameArt)
