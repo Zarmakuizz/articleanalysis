@@ -201,7 +201,7 @@ def getArticleCited():
 def getArtCitedFromArt(nameArt):
     ''' Give articles cited in an article
     :param nameArt: name of the article
-    :return list
+    :returns: list of names of articles
     '''
     article = Article.all()
     article.filter('name =', nameArt)

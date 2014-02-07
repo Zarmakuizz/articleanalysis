@@ -288,7 +288,7 @@ class Index:
                             </tbody>
                         </table>
                     </div>
-                    <dv class'pure-g'>
+                    <div class'pure-g'>
                         <table class='pure-u  pure-table pure-table-horizontal pure-table-striped'>
                             <thead><tr><th>Most cited articles</th><th>Count</th></tr></thead>
                             <tbody>
@@ -370,7 +370,6 @@ class Index:
         :param search: Text to search an author.
         :returns: HTML content as text"""
         authors = getAuthorsByWords(search)
-        logging.info('purée combat : %i'%len(authors))
         load = ''
         for a in authors:
             logging.info(a)
@@ -419,17 +418,28 @@ class Index:
         topcharted = ""
         for word in words:
             topcharted += '<tr><td>'+str(word.keyWord)+"</td><td>"+str(word.count)+"</td></tr>\n"
-        return """<h2>%s</h2>
+        citations = getArtCitedFromArt(name)
+        topCited = ""
+        for ci in citations:
+            topCited += '<tr><td>'+str(ci)+'</td></tr>'
+        return """<h2>Article' name: %s</h2>
         <p>Author: %s</p>
     <div class='pure-g'>
         <table class='pure-u pure-table pure-table-bordered pure-table-horizontal pure-table-striped'>
-            <thead><tr><th>Most frequent words</th><th>Count</th></tr></thead>
+            <thead><tr><th>Themes</th><th>Count</th></tr></thead>
+            <tbody>
+                %s
+            </tbody>
+        </table>
+        <div class='pure-u-1-24'></div>
+        <table class='pure-u-7-12 pure-table pure-table-horizontal pure-table-striped'>
+            <thead><tr><th>This article references these articles:</th></tr></thead>
             <tbody>
                 %s
             </tbody>
         </table>
     </div>
-    """%(name,str(author.name),topcharted)
+    """%(name,str(author.name),topcharted,topCited)
     
     def author_data(self,name=''):
         """Displays an author located at [url]/author/text
@@ -446,7 +456,7 @@ class Index:
         topcharted = ""
         for word in words:
             topcharted += '<tr><td>'+str(word)+"</td><td>"+str(words[word])+"</td></tr>\n"
-        return """<h2>%s</h2>
+        return """<h2>Author's name: %s</h2>
         <div class='pure-g'>
         <table class='pure-u pure-table pure-table-bordered pure-table-horizontal pure-table-striped'>
             <thead><tr><th>Look at his articles</th></tr></thead>
