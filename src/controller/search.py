@@ -28,8 +28,8 @@ def getAuthorsByWords(words):
     
 def getWordsMostFreq(wordNumber = 10):
     '''Get the most used words.
-    @param wordNumber count. Default is 10.
-    @return list of Master, which contains keyWord object and count'''
+    :param wordNumber count. Default is 10.
+    :return list of Master, which contains keyWord object and count'''
     master = db.Query(Master)
     master.order('-count')
     dataDict = []

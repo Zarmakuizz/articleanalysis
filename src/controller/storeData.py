@@ -4,6 +4,9 @@ from controller.pdfProcess import convert_pdf_to_txt
 import re
 
 def deleteData():
+    '''
+        Delete all the data
+    '''
     masters = Master.all()
     for master in masters:
         Master.delete(master)
@@ -25,6 +28,13 @@ def deleteData():
         ArtCitedBib.delete(artCitedBib)
         
 def saveMapReduce(namefic):
+    '''
+        Converted the pdf file in text
+        Do the mapper and reduce in the text
+        Get the references cited in the article
+        Save data Author, Article, ArtCitedBib, MapReduce, Master
+        :param namefic : the name file
+    '''
     #save_pdf(namefic)
     fic = convert_pdf_to_txt(namefic)
     
@@ -58,6 +68,9 @@ def saveMapReduce(namefic):
         master.put()
             
 def getReferences (fic, articlePrinc):
+    '''
+        Get the references of the article
+    '''
     fic = fic.replace('\n', ' ') 
     objFic = re.match( r'(.*)REFERENCES(.*)', fic)
     if objFic :
