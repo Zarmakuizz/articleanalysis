@@ -58,12 +58,29 @@ class searchTest(unittest.TestCase):
         #pass # j'ai pas d'idée quoi vider pour l'instant
     
     def testGetArticle(self):
-        '''Adds articles and test the getArticle() search.'''
+        '''Test the getArticle() search.'''
         result = getArticle(self.nameArticle)
         self.assertEquals(self.nameArticle,result.name)
         
     def testGetAuthorsByWords(self):
-        '''Check if the good author is returned'''
-        words = "tom"
-        results = getAuthorsByWords(words)
+        '''Test the getAuthorsByWords() search'''
+        results = getAuthorsByWords(self.nameAuthor)
         self.assertEquals(self.nameAuthor,results[0].name)
+    
+    def testGetWordsMostFreq(self):
+        '''Test that the words are ordered from most to few count'''
+        results = getWordsMostFreq(99) # high value just because
+        for i in range(0,len(results)):
+            if i==0:
+                self.assertTrue(results[i].count >= results[i-1].count)
+            else:
+                self.assertTrue(results[i].count <= results[i-1].count)
+    
+    def testGetWordsMostFreqByDoc(self):
+        '''Test that the words are ordered from most to few count'''
+        results = getWordsMostFreqByDoc(self.nameArticle,99) # high value just because
+        for i in range(0,len(results)):
+            if i==0:
+                self.assertTrue(results[i].count >= results[i-1].count)
+            else:
+                self.assertTrue(results[i].count <= results[i-1].count)

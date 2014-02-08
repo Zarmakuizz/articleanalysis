@@ -40,6 +40,7 @@ def getWordsMostFreq(wordNumber = 10):
 
 def getWordsMostFreqByDoc(paper, wordNumber = 10):
     '''Get the most frequent words (and count) for a given article.
+    :param paper: the name of the searched article
     :returns: a list of Master'''
     article = db.Query(Article)
     article.filter('name = ', paper)
