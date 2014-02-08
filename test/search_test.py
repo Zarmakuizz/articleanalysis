@@ -9,6 +9,8 @@ _pathname = os.path.dirname(__file__)
 sys.path.append(os.path.normpath(os.path.join(_pathname, '../src')))
 from controller.search import *
 from model.resource import *
+from controller.mapReduce import *
+from controller.storeData import *
 import unittest
 
 
@@ -16,22 +18,23 @@ class searchTest(unittest.TestCase):
     
     nameArticle = "Article sur les saucisses"
     nameAuthor = "Tomtom"
-    
+    article = None
+    author = None
     def setUp(self):
         '''This method is run BEFORE EACH test.
         So we could initialize the database here.'''
         
-        article = Article(name = nameArticle)
+        article = Article(name = self.nameArticle)
         article.put()
         
-        author = Author(name = nameAuthor)
+        author = Author(name = self.nameAuthor)
         author.put()
         artiAuth = ArtiAuth(keyAuthor= author, keyArticle=article)
         artiAuth.put()
         
         text = "La mère du maire est dans la mer; Le vers dans le verre est vert; j'ai mon thé sur la table;"
-        dataDict = mapper(text)
-        dataDict = reduce(dataDict)
+        dataDict = mapper(text,"src")
+        dataDict = reducer(dataDict)
         
         for cle in dataDict.keys():
             mapReduce = MapReduce(keyWord = cle, keyArticle = article, count = dataDict[cle])
@@ -56,13 +59,11 @@ class searchTest(unittest.TestCase):
     
     def testGetArticle(self):
         '''Adds articles and test the getArticle() search.'''
-        #nameArticle = "Article sur les saucisses"
-        #Article(name = nameArticle).put()
-        result = getArticle(nameArticle)
-        self.assertEquals(nameArticle,result.name)
+        result = getArticle(self.nameArticle)
+        self.assertEquals(self.nameArticle,result.name)
         
-    def testgetAuthorsByWords(self):
-        '''Check if the good author is return'''
-        words = "vers, verre"
-        result = getPaperByWords(words, 1)
-        self.assertEquals(result[0], author)
+    def testGetAuthorsByWords(self):
+        '''Check if the good author is returned'''
+        words = "tom"
+        results = getAuthorsByWords(words)
+        self.assertEquals(self.nameAuthor,results[0].name)

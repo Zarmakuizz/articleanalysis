@@ -2,13 +2,14 @@ import cgitb; cgitb.enable()
 import re
 import collections
 
-def mapper (fic):
+def mapper (fic, locationPrefix='.'):
     ''' Do the mapper of text given in parameter.
     :param fic: text to map reduce.
+    :param locationPrefix: prefix to th forbiddenWords, needed for unit tests.
     :returns: a dictionnary of [word=>1]. example of use: data["lol"] = 1
     '''
     data = collections.defaultdict(list)
-    with open("./datasettxt/forbiddenWords.txt") as f:
+    with open("%s/datasettxt/forbiddenWords.txt"%locationPrefix) as f:
         lines = f.readlines()
     for line in lines :
         listWordForbidden = line.split(' ')
