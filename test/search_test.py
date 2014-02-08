@@ -68,19 +68,23 @@ class searchTest(unittest.TestCase):
         self.assertEquals(self.nameAuthor,results[0].name)
     
     def testGetWordsMostFreq(self):
-        '''Test that the words are ordered from most to few count'''
+        '''Test that the words are ordered from most to few count
+        and that the forbidden words are not taken into account.'''
         results = getWordsMostFreq(99) # high value just because
         for i in range(0,len(results)):
             if i==0:
                 self.assertTrue(results[i].count >= results[i-1].count)
             else:
                 self.assertTrue(results[i].count <= results[i-1].count)
+            self.assertTrue(results[i].keyWord != "what") # one forbidden word
     
     def testGetWordsMostFreqByDoc(self):
-        '''Test that the words are ordered from most to few count'''
+        '''Test that the words are ordered from most to few count
+        and that the forbidden words are not taken into account.'''
         results = getWordsMostFreqByDoc(self.nameArticle,99) # high value just because
         for i in range(0,len(results)):
             if i==0:
                 self.assertTrue(results[i].count >= results[i-1].count)
             else:
                 self.assertTrue(results[i].count <= results[i-1].count)
+            self.assertTrue(results[i].keyWord != "what") # one forbidden word
