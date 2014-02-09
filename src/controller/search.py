@@ -74,7 +74,6 @@ def getPaperByWords(words, docNumber = 10):
                 nbOccur.append(mR.count)
             else :
                 nbOccur.append(0)
-        print nbWord
         if nbWord != 0 :
             data[oneArticle.name] = nbOccur
             dataNbTotal[oneArticle.name] = nbWord
@@ -86,7 +85,6 @@ def getPaperByWords(words, docNumber = 10):
         if i < docNumber:
             i += 1
             returnData[cle] = data[cle]
-    print("mon returnData : "+str(returnData))    
     return returnData
 
 def listAuthor():
