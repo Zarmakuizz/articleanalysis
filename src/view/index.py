@@ -335,7 +335,7 @@ class Index:
         :param search: the searched words as a list of strings
         :returns: HTML content as text."""
         # TODO check
-        results = getPaperByWords(search)
+        results = getPaperByWords(search, 10)
         res = ""
         for r in results:
             res += self.article_loading(r)
@@ -409,10 +409,8 @@ class Index:
         :param name: the article's name, which is used here as a primary key.
         :returns: HTML content as text."""
         article = getArticle(name)
-        logging.info("pingas "+article.name)
-        words = getWordsMostFreqByDoc(name)
+        words = getWordsMostFreqByDoc(name, 10)
         author = getAuthorByArticle(article)
-        logging.info("saucisse : "+author.name)
         # if article ou words est nul TODO
         # return """<h2>404 : Article not found</h2>"""
         # else
