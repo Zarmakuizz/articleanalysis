@@ -41,12 +41,12 @@ def saveMapReduce(namefic):
     dataDict = mapper(fic)
     dataDict = reducer(dataDict)
     
-    authors = re.split( r'\n', fic)
+    lines = re.split( r'\n', fic)
     
-    author = Author (name = authors[4])
+    author = Author (name = lines[4])
     author.put()
     
-    article = Article(name = namefic)
+    article = Article(name = lines[0],file = namefic)
     article.put()
     
     getReferences(fic, article)
