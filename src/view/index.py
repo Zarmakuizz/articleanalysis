@@ -270,7 +270,7 @@ class Index:
         articles = getArtMostFreqCited(10)
         topCited = ""
         for art in articles:
-            topCited += '<tr><td>'+str(art.nameArticle)+'</td><td>'+str(art.count)+'</td></tr>\n'
+            topCited += '<tr><td>'+str(art.nameArticle)+'</td><td>'+str(', '.join(art.authors))+'</td><td>'+str(art.count)+'</td></tr>\n'
         return"""
                     <h2 class="content-subhead">Watch the hottest, latest statistics</h2>
                     <div class='pure-g'>
@@ -290,7 +290,7 @@ class Index:
                     </div>
                     <div class'pure-g'>
                         <table class='pure-u  pure-table pure-table-horizontal pure-table-striped'>
-                            <thead><tr><th>Most cited articles</th><th>Count</th></tr></thead>
+                            <thead><tr><th>Most cited articles</th><th>Author</th><th>Count</th></tr></thead>
                             <tbody>
                                 %s
                             </tbody>
