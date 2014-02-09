@@ -335,10 +335,13 @@ class Index:
         :param search: the searched words as a list of strings
         :returns: HTML content as text."""
         # TODO check
-        results = getPaperByWords(search, 10)
+        searchThis = search.split(' ')
+        results = getPaperByWords(searchThis, 10)
+        chunks = results.items()
+        logging.info("COUSCOUS : "+str(results))
         res = ""
-        for r in results:
-            res += self.article_loading(r)
+        for i in range(0,len(chunks)):
+            res += self.article_loading(chunks[i],searchThis)
         return """<h2 class="content-subhead">Search for an article…</h2>
                     <p class="pure-g">
                         <form class='pure-form' action="/articles/" method="get">
@@ -351,20 +354,33 @@ class Index:
         """%(str(search),res)
                     
     
-    def article_loading(self,article=''):
+    def article_loading(self,article,search):
         """Generates the code for a given Article objet to display
-        as the search's result. This is a shortened display of said article.
+        as the search's result. Also show the occurence of each searched word.
+        This is a shortened display of said article.
         :param article: an element from the model
+        :param search: the searched words as a list of strings
         :returns: HTML content as text"""
+        occurences = ''
+        logging.info("MERGUEZ : "+str(article))
+        logging.info("CHIPOLALA : "+str(search))
+        for i in range(0,len(search)):
+            occurences += '<tr><td>'+str(search[i])+' </td><td>: '+str(article[1][i])+' count</td></tr>'
+        
         return """
-        <div class='pure-u-1-4' style='text-align:center;'>
+        <div class='pure-u-7-24' style='text-align:center;'>
             <a href="/article/%s">
                 <div class='searched'>
                     <h4>%s</h4>
                     <img src='/img/pdf.svg' style='width:60px;height:auto;' alt='' />
+                    <table class='pure-u pure-table pure-table-horizontal pure-table-striped'>
+                        <tbody>
+                            %s
+                        </tbody>
+                    </table>
                 </div>
             </a>
-        </div>"""%(str(article),str(article))
+        </div>"""%(str(article[0]),str(article[0]),occurences)
     
     def authors_load(self,search=''):
         """Display an author's search result at /authors/?s=search
@@ -388,7 +404,7 @@ class Index:
                     </div>
                     """%(str(search),load)
     
-    def author_loading(self,author=None):
+    def author_loading(self,author):
         """Generates the code for a given author name
         as the search result. This is a shortened view of said author.
         :param author: the author's name.
