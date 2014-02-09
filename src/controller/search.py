@@ -74,13 +74,15 @@ def getPaperByWords(words, docNumber = 10):
                 nbOccur.append(mR.count)
             else :
                 nbOccur.append(0)
-        data[oneArticle.name] = nbOccur
-        dataNbTotal[oneArticle.name] = nbWord
+        if nbWord != 0 :
+            data[oneArticle.name] = nbOccur
+            dataNbTotal[oneArticle.name] = nbWord
         
     returnData = collections.defaultdict(list)
     OrderedDict(sorted(dataNbTotal.items(), key=lambda t: -t[1]))
     i = 0
     for cle in data.keys():
+        print cle
         if i < docNumber:
             i += 1
             returnData[cle] = data[cle]
