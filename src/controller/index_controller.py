@@ -68,7 +68,7 @@ class INDEX(webapp2.RequestHandler):
             self.response.out.write(self.ind.articles_search(self.request.get('s')))
         # GET /article/xdxdxd
         elif len(self.request_path) > 0 and self.request_path[0] == 'article':
-            self.response.out.write(self.ind.article(self.request_path[1]))
+            self.response.out.write(self.ind.article(self.request_path[1].replace('%20',' ')))
         #  GET /authors/
         elif len(self.request_path) > 0 and self.request_path[0] == 'authors' and self.request.get('s') == '':
             self.response.out.write(self.ind.authors())
