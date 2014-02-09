@@ -331,7 +331,8 @@ class Index:
                     <p>Proin bibendum, nunc sit amet bibendum ornare, nulla metus aliquet metus, nec molestie odio dolor et massa. Nulla sed mauris leo. Ut pulvinar odio libero, eu feugiat nisl aliquet vitae. Nunc leo augue, gravida at odio tincidunt, dapibus placerat augue. Morbi auctor at odio nec vestibulum. Aenean auctor magna erat, sed rhoncus lorem iaculis ut. Aliquam sit amet blandit ipsum. Cras consectetur sed sem et hendrerit. Sed congue a erat vitae lobortis.</p>""" 
     
     def articles_load(self,search=''):
-        """Display an article search's results.
+        """Display an article search's results at /articles/?s=search
+        :param search: the searched words as a list of strings
         :returns: HTML content as text."""
         # TODO check
         results = getPaperByWords(search)
@@ -366,7 +367,7 @@ class Index:
         </div>"""%(str(article),str(article))
     
     def authors_load(self,search=''):
-        """Display an author's search result.
+        """Display an author's search result at /authors/?s=search
         :param search: Text to search an author.
         :returns: HTML content as text"""
         authors = getAuthorsByWords(search)
@@ -422,8 +423,9 @@ class Index:
         topCited = ""
         for ci in citations:
             topCited += '<tr><td>'+str(ci)+'</td></tr>'
-        return """<h2>Article' name: %s</h2>
+        return """<h2>Article's name: %s</h2>
         <p>Author: %s</p>
+        <p>You could <a href="/download/%s">download this article</a>.</p>
     <div class='pure-g'>
         <table class='pure-u pure-table pure-table-bordered pure-table-horizontal pure-table-striped'>
             <thead><tr><th>Themes</th><th>Count</th></tr></thead>
@@ -439,7 +441,7 @@ class Index:
             </tbody>
         </table>
     </div>
-    """%(name,str(author.name),topcharted,topCited)
+    """%(name,str(author.name),name,topcharted,topCited)
     
     def author_data(self,name=''):
         """Displays an author located at [url]/author/text

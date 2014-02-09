@@ -13,6 +13,7 @@ application = webapp2.WSGIApplication([
     ('^/$',INDEX), # Index, so that Guy could try things
     ('^/css/[a-zA-Z0-9-_.]+$',INDEX), # css file
     ('^/img/[a-zA-Z0-9-_.]+$',INDEX), # images
+    ('^/download/[a-zA-Z0-9-_.]+$',INDEX), # pdf
     ('^/\w+/$',INDEX), # articles, authors, stats, upload, about
     ('^/article/\w+$',INDEX), # article
     ('^/author/[^/]+$',INDEX), # author

@@ -52,6 +52,14 @@ class INDEX(webapp2.RequestHandler):
                 self.response.headers['Content-Type'] = 'text/plain'
                 self.response.out.write("404");
                 print "unexpected error while loadin css:", sys.exc_info()
+        #  GET /download/name
+        elif len(self.request_path) > 0 and self.request_path[0] == 'download':
+            print os.getcwd()
+            self.response.headers['Content-Type'] = 'application/pdf'
+            f = open('datasetpdf/%s.pdf'%self.request_path[1])
+            content = f.read()
+            self.response.out.write(content)
+            f.close()
         #  GET /articles/
         elif len(self.request_path) > 0 and self.request_path[0] == 'articles' and self.request.get('s') == '':
             self.response.out.write(self.ind.articles())
