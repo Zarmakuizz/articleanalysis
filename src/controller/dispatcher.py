@@ -15,6 +15,6 @@ application = webapp2.WSGIApplication([
     ('^/img/[a-zA-Z0-9-_.]+$',INDEX), # images
     ('^/download/[a-zA-Z0-9-_.]+$',INDEX), # pdf
     ('^/\w+/$',INDEX), # articles, authors, stats, upload, about
-    ('^/article/\w+$',INDEX), # article
+    ('^/article/[^/]+$',INDEX), # article
     ('^/author/[^/]+$',INDEX), # author
     ],debug=True)
