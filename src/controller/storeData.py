@@ -46,7 +46,7 @@ def saveMapReduce(namefic):
     author = Author (name = lines[4])
     author.put()
     
-    article = Article(name = lines[0],file = namefic)
+    article = Article(name = lines[0]+lines[1], fileName = namefic)
     article.put()
     
     getReferences(fic, article)

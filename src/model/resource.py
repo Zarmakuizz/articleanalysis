@@ -7,7 +7,7 @@ class Author(db.Model):
 class Article(db.Model):
 #    keyArticle = db.IntegerProperty(required=True)
     name = db.StringProperty(required=True)
-    file = db.StringProperty(required=True)
+    fileName = db.StringProperty(required=True)
     
 class ArtiAuth(db.Model):
     keyAuthor = db.ReferenceProperty(Author)
