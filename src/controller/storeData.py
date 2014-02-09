@@ -43,10 +43,13 @@ def saveMapReduce(namefic):
     
     lines = re.split( r'\n', fic)
     
-    author = Author (name = lines[4])
+    authorStr = re.sub( r'[^a-zA-Z\s]', " ", lines[4])
+    author = Author (name = authorStr)
     author.put()
     
-    article = Article(name = lines[0]+lines[1], fileName = namefic)
+    titre = re.sub( r'[^a-zA-Z\s]', " ", lines[0]+lines[1])
+    
+    article = Article(name = titre, fileName = namefic)
     article.put()
     
     getReferences(fic, article)
