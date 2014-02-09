@@ -53,7 +53,7 @@ def getWordsMostFreqByDoc(paper, wordNumber = 10):
         dataDict.append(mapRed)
     return dataDict
 
-def getPaperByWords(words, docNumber = 3):
+def getPaperByWords(words, docNumber = 10):
     '''Get a list of articles for a given request.
     :param words: list of words for the query.
     :param docNumber: count of max nomber of results to get.
