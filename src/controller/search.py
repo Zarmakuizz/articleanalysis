@@ -57,7 +57,7 @@ def getPaperByWords(words, docNumber = 10):
     '''Get a list of articles for a given request.
     :param words: list of words for the query.
     :param docNumber: count of max nomber of results to get.
-    :returns: a list of strings being each Article's name.'''
+    :returns: a dictionnary of [nameArticle=>table count[,]]. example of use: data["Article"] = [42, 2]'''
     article = Article.all()
     data = collections.defaultdict(list)
     dataNbTotal = collections.defaultdict(list)
@@ -74,6 +74,7 @@ def getPaperByWords(words, docNumber = 10):
                 nbOccur.append(mR.count)
             else :
                 nbOccur.append(0)
+        print nbWord
         if nbWord != 0 :
             data[oneArticle.name] = nbOccur
             dataNbTotal[oneArticle.name] = nbWord
@@ -82,11 +83,10 @@ def getPaperByWords(words, docNumber = 10):
     OrderedDict(sorted(dataNbTotal.items(), key=lambda t: -t[1]))
     i = 0
     for cle in data.keys():
-        print cle
         if i < docNumber:
             i += 1
             returnData[cle] = data[cle]
-        
+    print("mon returnData : "+str(returnData))    
     return returnData
 
 def listAuthor():
