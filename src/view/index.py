@@ -439,7 +439,7 @@ class Index:
         topcharted = ""
         for word in words:
             topcharted += '<tr><td>'+str(word.keyWord)+"</td><td>"+str(word.count)+"</td></tr>\n"
-        citations = getArticleCited() #getArtCitedFromArt(name)
+        citations = getArtCitedFromArt(name)
         # test for test
         
         logging.info("ONCHE ONCHE"+str(len(citations)))
