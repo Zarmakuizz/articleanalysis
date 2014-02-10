@@ -114,11 +114,11 @@ class Index:
 
             <ul>
                 <li><a href="/articles/">Articles</a></li>
-                <li><a href="/authors/">Auteurs</a></li>
+                <li><a href="/authors/">Authors</a></li>
                 <li class="pure-menu-heading"></li>
-                <li><a href="/stats/">Statistiques</a></li>
-                <li><a href="/upload/">Uploader</a></li>
-                <li><a href="/about/">À propos</a></li>
+                <li><a href="/stats/">Stats</a></li>
+                <li><a href="/upload/">Upload</a></li>
+                <li><a href="/about/">About</a></li>
             </ul>
         </div>
     </div>
@@ -439,7 +439,9 @@ class Index:
         topcharted = ""
         for word in words:
             topcharted += '<tr><td>'+str(word.keyWord)+"</td><td>"+str(word.count)+"</td></tr>\n"
-        citations = getArtCitedFromArt(name)
+        citations = getArticleCited() #getArtCitedFromArt(name)
+        # test for test
+        
         logging.info("ONCHE ONCHE"+str(len(citations)))
         topCited = ""
         for ci in citations:
@@ -455,7 +457,7 @@ class Index:
             </tbody>
         </table>
         <div class='pure-u-1-24'></div>
-        <table class='pure-u-7-12 pure-table pure-table-horizontal pure-table-striped'>
+        <table class='pure-u pure-table pure-table-horizontal pure-table-striped'>
             <thead><tr><th>This article references these articles:</th></tr></thead>
             <tbody>
                 %s
