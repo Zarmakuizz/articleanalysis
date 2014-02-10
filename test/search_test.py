@@ -88,3 +88,4 @@ class searchTest(unittest.TestCase):
             else:
                 self.assertTrue(results[i].count <= results[i-1].count)
             self.assertTrue(results[i].keyWord != "what") # one forbidden word
+
