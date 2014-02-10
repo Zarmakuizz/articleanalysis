@@ -152,7 +152,7 @@ class Index:
         # Top charted words: the most popular keywords
         topcharted = ""
         for wo in words:
-            topcharted += '<li><a href="/articles/?s='+str(wo.keyWord)+'">'+str(wo.keyWord)+"</a></li>\n"
+            topcharted += '<li><a href="/articles/?s='+str(wo.keyWord)+'" data-weight="'+str(wo.count-10)+'">'+str(wo.keyWord)+"</a></li>\n"
         return"""<h2 class="content-subhead">Search for an article…</h2>
                     <p class="pure-g">
                         <form class='pure-form' action="/articles/" method="get">
@@ -173,7 +173,7 @@ class Index:
                     <div class='pure-g' id="myCanvasContainer">
                         <canvas width="600" height="300" id="myCanvas">
                             <p>If you see this text, you should jump to a fresh, updated browser, for example Firefox, Google Chrome, or Internet Explorer 10.</p>
-                            <ul>
+                            <ul class="weighted" id="weightTags">
                                 %s
                             </ul>
                         </canvas>
@@ -181,10 +181,15 @@ class Index:
                           window.onload = function() {
                               var options = {
                                   textColour: '#565656',
+                                  weight: true,
+                                  weightMode: "both",
+                                  weightFrom: "data-weight",
+                                  weightSizeMin: 16,
+                                  weightSizeMax: 64
                               };
                               try {
                                 TagCanvas.Start('myCanvas', '', options);
-                               } catch(e) {
+                              } catch(e) {
                                   // something went wrong, hide the canvas container
                                   document.getElementById('myCanvasContainer').style.display = 'none';
                               }
@@ -315,10 +320,10 @@ class Index:
                                     <label for="file">Upload a file: </label>
                                     <input id="file" type="file" placeholder="Choose a file" />
                                 </div>
-                                <div class="pure-control-group">
+                                <!-- <div class="pure-control-group">
                                     <label for="author">Add author's name': </label>
                                     <input id="author" type="text" placeholder="Give us the author" />
-                                </div>
+                                </div> -->
                             </fieldset>
                             <button type="submit" class="pure-button pure-button-primary">UPLOAD</button>
                         </form>
@@ -340,7 +345,6 @@ class Index:
         searchThis = search.split(' ')
         results = getPaperByWords(searchThis, 10)
         chunks = results.items()
-        logging.info("COUSCOUS : "+str(results))
         res = ""
         for i in range(0,len(chunks)):
             res += self.article_loading(chunks[i],searchThis)
