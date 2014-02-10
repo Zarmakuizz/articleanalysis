@@ -424,9 +424,15 @@ class Index:
         """Displays an article located at [url]/article/text
         :param name: the article's name, which is used here as a primary key.
         :returns: HTML content as text."""
+        logging.info('je cherche:'+repr(name))
         article = getArticle(name)
         words = getWordsMostFreqByDoc(name, 10)
         author = getAuthorByArticle(article)
+        logging.info("SCHTROOMPFT"+str(len(words)))
+        authorName = 'Unknown'
+        if (author != None):
+            authorName = author.name
+        
         # if article ou words est nul TODO
         # return """<h2>404 : Article not found</h2>"""
         # else
@@ -434,6 +440,7 @@ class Index:
         for word in words:
             topcharted += '<tr><td>'+str(word.keyWord)+"</td><td>"+str(word.count)+"</td></tr>\n"
         citations = getArtCitedFromArt(name)
+        logging.info("ONCHE ONCHE"+str(len(citations)))
         topCited = ""
         for ci in citations:
             topCited += '<tr><td>'+str(ci)+'</td></tr>'
@@ -455,7 +462,7 @@ class Index:
             </tbody>
         </table>
     </div>
-    """%(name,str(author.name),name,topcharted,topCited)
+    """%(name,str(authorName),str(article.fileName),topcharted,topCited)
     
     def author_data(self,name=''):
         """Displays an author located at [url]/author/text
