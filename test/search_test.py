@@ -91,9 +91,14 @@ class searchTest(unittest.TestCase):
             self.assertTrue(results[i].keyWord != "what") # one forbidden word
 
     def testGetPaperByWords(self):
-        '''Test that the docs returns are
+        '''Test that the docs returns are the good ones
         '''
         words = ['mer', 'texte', 'occurence']
         results = getPaperByWords(words, 3)
         nbOccurOldArticle = [0, 1, 0] # mer <= 3 lettres
         self.assertEquals(results[self.nameArticle], nbOccurOldArticle)
+        
+    def testListAuthor(self):
+        ''' Test that list author is good'''
+        results = listAuthor()
+        self.assertTrue(results[0], self.nameAuthor)

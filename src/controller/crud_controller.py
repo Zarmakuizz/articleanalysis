@@ -14,8 +14,8 @@ class CRUD(webapp2.RequestHandler):
 
         #deleteData()
         
-        #saveMapReduce('10_coginfocom2013')
-        #saveMapReduce('11_coginfocom2013')
+        saveMapReduce('10_coginfocom2013')
+        saveMapReduce('11_coginfocom2013')
         #saveMapReduce('12_coginfocom2013')
         #saveMapReduce('13_coginfocom2013')
         #saveMapReduce('14_coginfocom2013')
@@ -32,7 +32,7 @@ class CRUD(webapp2.RequestHandler):
         words = ['different', 'called']
         data = getPaperByWords(words, 3)
         self.response.out.write('''
-        <h1>Document ou il y a le plus les mots different et called</h1>
+        <h1>Document ou il y a le plus les mots differents et called</h1>
         <table border=1>
             <tr>
                 <td>Document</td>
