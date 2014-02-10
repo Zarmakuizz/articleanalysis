@@ -463,7 +463,7 @@ class Index:
             </tbody>
         </table>
         <div class='pure-u-1-24'></div>
-        <table class='pure-u pure-table pure-table-horizontal pure-table-striped'>
+        <table class='pure-u-13-24 pure-table pure-table-horizontal pure-table-striped'>
             <thead><tr><th>This article references these articles:</th></tr></thead>
             <tbody>
                 %s
