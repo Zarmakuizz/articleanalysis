@@ -60,7 +60,6 @@ def getPaperByWords(words, docNumber = 10):
     :returns: a dictionnary of [nameArticle=>table count[,]]. example of use: data["Article"] = [42, 2]'''
     article = Article.all()
     data = collections.defaultdict(list)
-    dataNbTotal = collections.defaultdict(list)
     for oneArticle in article:
         nbWord = 0
         nbOccur = []
@@ -76,16 +75,11 @@ def getPaperByWords(words, docNumber = 10):
                 nbOccur.append(0)
         if nbWord != 0 :
             data[oneArticle.name] = nbOccur
-            dataNbTotal[oneArticle.name] = nbWord
         
-    returnData = collections.defaultdict(list)
-    OrderedDict(sorted(dataNbTotal.items(), key=lambda t: -t[1]))
-    i = 0
-    for cle in data.keys():
-        if i < docNumber:
-            i += 1
-            returnData[cle] = data[cle]
-    return returnData
+    # Sort the results based on the sum of each word's occurences
+    sortedList = data.items()
+    sortedList.sort(key=lambda x: sum(x[1]), reverse=True)
+    return OrderedDict(sortedList)
 
 def listAuthor():
     '''Returns a list of all authors.
@@ -144,17 +138,11 @@ def getWordsMostFreqByAuthor(authorName, wordNumber = 10):
                     data[mR.keyWord] = mR.count
             except ReferencePropertyResolveError :
                 print 'Pas de reference word'
-    returnData = collections.defaultdict(list)  
-    dico_trie = sorted(data.iteritems(), reverse=True, key=operator.itemgetter(1))
-    #OrderedDict(sorted(data.items(), key=lambda t: -t[1]))
-    #print data
-    i = 0
-    for cle in dico_trie:
-        if i < wordNumber:
-            i += 1
-            returnData[cle[0]] = data[cle[0]]
-        
-    return returnData
+    
+    # Sort the results based on the sum of each word's occurences
+    sortedList = data.items()
+    sortedList.sort(key=lambda x: x[1], reverse=True)
+    return OrderedDict(sortedList[0:wordNumber-1])
 
 def getArtCitedBiblio(wordNumber = 10):
     '''Give name all articles cited
@@ -180,14 +168,6 @@ def getArtMostFreqCited(wordNumber = 10):
     for artCited in results:
         dataDict.append(artCited)
     return dataDict
-
-def getAuthorByArticleCited(nameArticle):
-    #artCitedBib = ArtCitedBib.all()
-    #artCitedBib.filter('nameArticle=', nameArticle)
-    data = []
-    #if artCitedBib.count() > 0:
-        #data = artCitedBib.get().authors
-    return data
 
 def getArticleCited():
     '''Give all articles cited
