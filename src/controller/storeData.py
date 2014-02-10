@@ -1,6 +1,7 @@
 from model.resource import Master, MapReduce, Article, Author, ArtiAuth, ArtCitedBib
 from controller.mapReduce import mapper, reducer
 from controller.pdfProcess import convert_pdf_to_txt
+from google.appengine.ext import db
 import re
 
 def deleteData():
@@ -47,8 +48,9 @@ def saveMapReduce(namefic):
     author = Author (name = authorStr)
     author.put()
     
-    titre = re.sub( r'[^a-zA-Z\s]', " ", lines[0]+lines[1])
     
+    titre = re.sub( r'[^a-zA-Z\s]', " ", lines[0]+lines[1])
+    titre = titre.strip()
     article = Article(name = titre, fileName = namefic)
     article.put()
     
@@ -68,8 +70,24 @@ def saveMapReduce(namefic):
             master.count = master.count + dataDict[cle]
         else :
             master = Master(keyWord = cle, count=dataDict[cle])
-        master.put()
-            
+        master.put()      
+
+        
+#@db.transactional           
+#def transactionData (article, dataDict, cle) :
+    #mapReduce = MapReduce(keyWord = cle, keyArticle = article, count = dataDict[cle])
+    #mapReduce.put()
+
+    #checkMaster = Master.all()
+    #checkMaster.filter('keyWord =', cle)
+    #if checkMaster.count() > 0 :
+        #master = checkMaster.get()
+        #master.count = master.count + dataDict[cle]
+    #else :
+        #master = Master(keyWord = cle, count=dataDict[cle])
+    #master.put()            
+
+
 def getReferences (fic, articlePrinc):
     '''
         Get the references of the article
