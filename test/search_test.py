@@ -18,12 +18,24 @@ class searchTest(unittest.TestCase):
     
     nameArticle = "Article sur les saucisses"
     nameAuthor = "Tomtom"
-    article = None
-    author = None
+    
     def setUp(self):
         '''This method is run BEFORE EACH test.
         So we could initialize the database here.'''
         
+        text = "Voici le texte : La mère du maire est dans la mer; Le vers dans le verre vert; j'ai mon thé sur la table; La mer est bleu"
+        
+        savePdfInDB(nameArticle, nameAuthor, text)
+        
+        #pass # j'ai pas d'idée quoi initialiser pôur l'instant
+    
+    def tearDown(self):
+        '''This method is run AFTER EACH test.
+        So we could clean the database after each test.'''
+        deleteData()
+        #pass # j'ai pas d'idée quoi vider pour l'instant
+        
+    def savePdfInDB(nameArticle, nameAuthor, text):
         article = Article(name = self.nameArticle)
         article.put()
         
@@ -32,10 +44,8 @@ class searchTest(unittest.TestCase):
         artiAuth = ArtiAuth(keyAuthor= author, keyArticle=article)
         artiAuth.put()
         
-        text = "La mère du maire est dans la mer; Le vers dans le verre est vert; j'ai mon thé sur la table;"
         dataDict = mapper(text,"src")
         dataDict = reducer(dataDict)
-        
         for cle in dataDict.keys():
             mapReduce = MapReduce(keyWord = cle, keyArticle = article, count = dataDict[cle])
             mapReduce.put()
@@ -48,14 +58,6 @@ class searchTest(unittest.TestCase):
             else :
                 master = Master(keyWord = cle, count=dataDict[cle])
             master.put()
-        
-        #pass # j'ai pas d'idée quoi initialiser pôur l'instant
-    
-    def tearDown(self):
-        '''This method is run AFTER EACH test.
-        So we could clean the database after each test.'''
-        deleteData()
-        #pass # j'ai pas d'idée quoi vider pour l'instant
     
     def testGetArticle(self):
         '''Test the getArticle() search.'''
@@ -88,3 +90,17 @@ class searchTest(unittest.TestCase):
             else:
                 self.assertTrue(results[i].count <= results[i-1].count)
             self.assertTrue(results[i].keyWord != "what") # one forbidden word
+
+    def testGetPaperByWords(self):
+        '''Test that the docs returns are
+        '''
+        newNameArticle = "nouveau article"
+        savePdfInDB(newNameArticle, "blabla", 
+                    "Je suis un texte qui va être vérifié!\n" +
+                    "Car le but est d'analyser un texte selon le nombre d'occurence ")
+        words = ['mer', 'texte', 'occurence']
+        results = getPaperByWords(words, 3)
+        nbOccurNewArticle  = [0, 2, 1]
+        nbOccurOldArticle = [2, 1, 0]
+        self.assertTrue(results[newNameArticle], nbOccurNewArticle)
+        self.assertTrue(results[nameArticle], nbOccurOldArticle)
