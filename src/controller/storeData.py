@@ -100,7 +100,8 @@ def getReferences (fic, articlePrinc):
             sepAuthName = oneRef.split(',')
             authorsArt = []
             for l in sepAuthName:
-                matchAuth = re.match( r' ([A-Z]\..*)', l) 
+                l = l.strip()
+                matchAuth = re.match( r'([A-Z]\..*)', l) 
                 if matchAuth :
                     author = re.sub( r'[^a-zA-Z\s\.]', "", matchAuth.group(1))
                     authorsArt.append(author)
@@ -123,7 +124,7 @@ def getReferences (fic, articlePrinc):
                         if articleCitedBib.count() > 0:
                             artCitedBib = articleCitedBib.get()
                             artCitedBib.count = artCitedBib.count + 1
-                        else :    
+                        else :
                             artCitedBib = ArtCitedBib(keyArticle=articlePrinc, nameArticle=nameArt, authors=authorsArt, count=1)
                         artCitedBib.put()
                         break
