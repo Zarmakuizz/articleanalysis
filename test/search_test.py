@@ -92,8 +92,7 @@ class searchTest(unittest.TestCase):
             self.assertTrue(results[i].keyWord != "what") # one forbidden word
 
     def testGetPaperByWords(self):
-        '''Test that the docs returns are
-        '''
+        '''Test that the docs returns are good'''
         newNameArticle = "nouveau article"
         savePdfInDB(newNameArticle, "blabla", 
                     "Je suis un texte qui va être vérifié!\n" +
@@ -104,3 +103,9 @@ class searchTest(unittest.TestCase):
         nbOccurOldArticle = [2, 1, 0]
         self.assertTrue(results[newNameArticle], nbOccurNewArticle)
         self.assertTrue(results[nameArticle], nbOccurOldArticle)
+        
+    def testListAuthor(self):
+        ''' Test that list author is good'''
+        results = listAuthor()
+        self.assertTrue(results[0], self.nameAuthor)
+    
