@@ -206,8 +206,9 @@ def getArtCitedFromArt(nameArt):
     '''
     article = Article.all()
     article.filter('name =', nameArt)
+    result = article.get()
     artCitedBib = ArtCitedBib.all()
-    artCitedBib.filter('keyArticle = ', article.get())
+    artCitedBib.filter('keyArticle = ', result)
     data = []
     for artiCited in artCitedBib:
         data.append(artiCited.nameArticle)

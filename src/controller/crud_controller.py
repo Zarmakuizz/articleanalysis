@@ -16,7 +16,7 @@ class CRUD(webapp2.RequestHandler):
 
         saveMapReduce('11_coginfocom2013')
         saveMapReduce('13_coginfocom2013')
-        saveMapReduce('14_coginfocom2013')
+        #saveMapReduce('14_coginfocom2013')
         saveMapReduce('17_coginfocom2013')
         saveMapReduce('18_coginfocom2013')
         saveMapReduce('19_coginfocom2013')
