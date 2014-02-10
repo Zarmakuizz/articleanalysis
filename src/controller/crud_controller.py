@@ -22,7 +22,7 @@ class CRUD(webapp2.RequestHandler):
         #saveMapReduce('17_coginfocom2013')
         #saveMapReduce('18_coginfocom2013')
         #saveMapReduce('19_coginfocom2013')
-        
+
         self.response.out.write('''
 <html>
     <body>

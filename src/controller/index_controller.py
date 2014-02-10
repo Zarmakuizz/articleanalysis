@@ -26,7 +26,20 @@ class INDEX(webapp2.RequestHandler):
             except:
                 self.response.headers['Content-Type'] = 'text/plain'
                 self.response.out.write("404");
-                print "unexpected error while loadin css:", sys.exc_info()
+                print "unexpected error while loading css:", sys.exc_info()
+        # GET js
+        if len(self.request_path) > 0 and self.request_path[0] == 'js':
+            '''Exploring content in src/'''
+            try:
+                f = open('js/%s' %self.request_path[1],'r')
+                content = f.read()
+                f.close()
+                self.response.headers['Content-Type'] = 'application/javascript'
+                self.response.out.write(content)
+            except:
+                self.response.headers['Content-Type'] = 'text/plain'
+                self.response.out.write("404");
+                print "unexpected error while loading js:", sys.exc_info()
         # GET img
         elif len(self.request_path) > 0 and self.request_path[0] == 'img':
             '''Exploring content in src/'''

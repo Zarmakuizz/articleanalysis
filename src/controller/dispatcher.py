@@ -12,6 +12,7 @@ application = webapp2.WSGIApplication([
     ('^/mapReduce', CRUD), # Create
     ('^/$',INDEX), # Index, so that Guy could try things
     ('^/css/[a-zA-Z0-9-_.]+$',INDEX), # css file
+    ('^/js/[a-zA-Z0-9-_.]+$',INDEX), # js file
     ('^/img/[a-zA-Z0-9-_.]+$',INDEX), # images
     ('^/download/[a-zA-Z0-9-_.]+$',INDEX), # pdf
     ('^/\w+/$',INDEX), # articles, authors, stats, upload, about

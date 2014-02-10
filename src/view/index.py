@@ -81,7 +81,8 @@ class Index:
         <link rel="stylesheet" type="text/css" href="/css/pure-min.css" />
         <link rel="stylesheet" type="text/css" href="/css/side-menu.css" />
         <link rel="stylesheet" type="text/css" href="/css/bonus.css" />
-    </head>""" %title
+        <script src="/js/tagcanvas.min.js" type="text/javascript"></script>
+     </head>""" %title
     
     def body(self, content=''):
         """Displays the page's <body> content. This is a template,
@@ -147,16 +148,11 @@ class Index:
     def index_content(self):
         """Display the home page's content.
         :returns: HTML content as text"""
-        words = getWordsMostFreq(10)
+        words = getWordsMostFreq(30)
         # Top charted words: the most popular keywords
         topcharted = ""
         for wo in words:
-            topcharted += '<tr><td>'+str(wo.keyWord)+"</td><td>"+str(wo.count)+"</td></tr>\n"
-        # TODO other top10/list of last
-        authors = listAuthor()
-        topAuthors = ""
-        for auth in authors:
-            topAuthors += '<tr><td><a href="/author/'+str(auth)+'">'+str(auth)+'</a></td></tr>\n'
+            topcharted += '<li><a href="/articles/?s='+str(wo.keyWord)+'">'+str(wo.keyWord)+"</a></li>\n"
         return"""<h2 class="content-subhead">Search for an article…</h2>
                     <p class="pure-g">
                         <form class='pure-form' action="/articles/" method="get">
@@ -174,21 +170,27 @@ class Index:
                         </ul>
                         Just take a look…
                     </p>
-                    <div class='pure-g'>
-                        <table class='pure-u pure-table pure-table-bordered pure-table-horizontal pure-table-striped'>
-                            <thead><tr><th>Top-charted themes</th><th>Count</th></tr></thead>
-                            <tbody>
+                    <div class='pure-g' id="myCanvasContainer">
+                        <canvas width="600" height="300" id="myCanvas">
+                            <p>If you see this text, you should jump to a fresh, updated browser, for example Firefox, Google Chrome, or Internet Explorer 10.</p>
+                            <ul>
                                 %s
-                            </tbody>
-                        </table>
-                        <div class='pure-u-1-24'></div>
-                        <table class='pure-u  pure-table pure-table-horizontal pure-table-striped'>
-                            <thead><tr><th>Last authors</th></tr></thead>
-                            <tbody>
-                                %s
-                            </tbody>
-                        </table>
-                    </div>""" %(topcharted,topAuthors)
+                            </ul>
+                        </canvas>
+                         <script type="text/javascript">
+                          window.onload = function() {
+                              var options = {
+                                  textColour: '#565656',
+                              };
+                              try {
+                                TagCanvas.Start('myCanvas', '', options);
+                               } catch(e) {
+                                  // something went wrong, hide the canvas container
+                                  document.getElementById('myCanvasContainer').style.display = 'none';
+                              }
+                          };
+                         </script>
+                    </div>""" %(topcharted)
     
     def articles_content(self):
         """Display the article's "home" page located at [url]/articles.
