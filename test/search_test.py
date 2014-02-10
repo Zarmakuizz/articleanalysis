@@ -103,9 +103,9 @@ class searchTest(unittest.TestCase):
         nbOccurOldArticle = [2, 1, 0]
         self.assertTrue(results[newNameArticle], nbOccurNewArticle)
         self.assertTrue(results[nameArticle], nbOccurOldArticle)
+
         
     def testListAuthor(self):
         ''' Test that list author is good'''
         results = listAuthor()
         self.assertTrue(results[0], self.nameAuthor)
-    
